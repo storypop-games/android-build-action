@@ -1,7 +1,7 @@
 default_platform(:android)
 
 platform :android do
-  desc "Assemble debug APK"
+  desc "Assemble APK"
   lane :assemble do
     if ENV['INCREMENT_BUILD_NUMBER'] == 'true'
       increment_version_code()
@@ -11,6 +11,12 @@ platform :android do
       task: ENV["GRADLE_TASK"],
       project_dir: ENV["PROJECT_PATH"],
       flags: "--no-daemon",
+      properties: {
+        "android.injected.signing.store.file" => File.join(Dir.pwd, "..", "keystore.jks"),
+        "android.injected.signing.store.password" => ENV["KEYSTORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["KEYSTORE_ALIAS"],
+        "android.injected.signing.key.password" => ENV["KEYSTORE_PASSWORD"],
+      }
     )
 
     APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
