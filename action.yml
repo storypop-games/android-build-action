@@ -1,5 +1,5 @@
 name: "Build Android App"
-author: "SparkFabrik"
+author: "SparkFabrik (forked by tomaszpaczesny)"
 branding:
   icon: "smartphone"
   color: "green"
@@ -79,6 +79,14 @@ inputs:
     description: "Status of the release"
     default: "draft"
     required: false
+  java-version:
+    description: "Specify the Java version you wish to use"
+    required: false
+    default: "17"
+  java-distribution:
+    description: "Specify the Java distribution you wish to use"
+    required: false
+    default: "corretto"
 runs:
   using: "composite"
   steps:
@@ -91,6 +99,11 @@ runs:
       uses: actions/setup-node@v3
       with:
         node-version: 16
+    - id: "SETUP_JAVA"
+      uses: actions/setup-java@v3
+      with:
+        distribution: ${{ inputs.java-distribution }}
+        java-version: ${{ inputs.java-version }}
     - id: "RUN_INDEX"
       env:
         BUILD_TYPE: ${{ inputs.build-type }}
