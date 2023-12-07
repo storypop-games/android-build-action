@@ -45,5 +45,5 @@ if [ -n "${FASTLANE_ENV}" ]; then
     bundle exec fastlane --env ${FASTLANE_ENV} android $BUILD_TYPE
 else
     echo "Running fastlane"
-    bundle exec fastlane android $BUILD_TYPE --verbose
+    bundle exec fastlane android $BUILD_TYPE
 fi
